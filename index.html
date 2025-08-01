@@ -3,10 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nifty Sectoral News</title>
+    <title>Nifty Sectoral News & Rankings</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to Nifty Sectoral News</h1>
-    <p>This is the main page for Nifty Sectoral News.</p>
+    <header>
+        <h1>📈 Nifty Sectoral News Hub</h1>
+        <p>Real-time news and growth rankings for all Nifty sectors</p>
+    </header>
+
+    <main>
+        <section class="rankings">
+            <h2>🏆 Sector Growth Rankings</h2>
+            <div id="sector-rankings">
+                <div class="sector-card rank-1">
+                    <span class="rank">#1</span>
+                    <h3>Nifty IT</h3>
+                    <p class="growth">+18.5% projected growth</p>
+                    <button onclick="showSectorNews('IT')">View News</button>
+                </div>
+                <div class="sector-card rank-2">
+                    <span class="rank">#2</span>
+                    <h3>Nifty Healthcare</h3>
+                    <p class="growth">+15.7% projected growth</p>
+                    <button onclick="showSectorNews('Healthcare')">View News</button>
+                </div>
+                <div class="sector-card rank-3">
+                    <span class="rank">#3</span>
+                    <h3>Nifty Financial Services</h3>
+                    <p class="growth">+14.2% projected growth</p>
+                    <button onclick="showSectorNews('Banking')">View News</button>
+                </div>
+                <div class="sector-card rank-4">
+                    <span class="rank">#4</span>
+                    <h3>Nifty Auto</h3>
+                    <p class="growth">+12.8% projected growth</p>
+                    <button onclick="showSectorNews('Auto')">View News</button>
+                </div>
+                <div class="sector-card rank-5">
+                    <span class="rank">#5</span>
+                    <h3>Nifty Pharma</h3>
+                    <p class="growth">+11.5% projected growth</p>
+                    <button onclick="showSectorNews('Pharma')">View News</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <h2>📰 Latest Sector News</h2>
+            <div class="news-filter">
+                <button onclick="showAllNews()" class="filter-btn active">All Sectors</button>
+                <button onclick="showSectorNews('IT')" class="filter-btn">IT</button>
+                <button onclick="showSectorNews('Banking')" class="filter-btn">Banking</button>
+                <button onclick="showSectorNews('Auto')" class="filter-btn">Auto</button>
+                <button onclick="showSectorNews('Healthcare')" class="filter-btn">Healthcare</button>
+            </div>
+            <div id="news-container">
+                <div class="loading">Loading latest news...</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Built for Indian stock market enthusiasts | Data updated every hour</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
