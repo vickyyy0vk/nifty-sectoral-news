@@ -48,6 +48,13 @@ header p {
     border-radius: 20px;
     font-weight: bold;
     font-size: 0.9rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }
 
 main {
@@ -75,12 +82,6 @@ main {
     font-size: 1.3rem;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.02); }
-    100% { transform: scale(1); }
-}
-
 .rankings {
     background: white;
     border-radius: 20px;
@@ -96,39 +97,34 @@ main {
     font-size: 2rem;
 }
 
-.ranking-legend {
+/* Sector Tabs */
+.sector-tabs {
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1rem;
     margin-bottom: 2rem;
     flex-wrap: wrap;
 }
 
-.legend-green, .legend-red, .legend-neutral {
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+.tab-btn {
+    background: #ecf0f1;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
     font-weight: bold;
-    font-size: 0.9rem;
 }
 
-.legend-green {
-    background: #d4edda;
-    color: #155724;
+.tab-btn.active, .tab-btn:hover {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    transform: translateY(-2px);
 }
 
-.legend-red {
-    background: #f8d7da;
-    color: #721c24;
-}
-
-.legend-neutral {
-    background: #e2e3e5;
-    color: #383d41;
-}
-
-#sector-rankings {
+.sector-group {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
 }
 
@@ -246,11 +242,11 @@ main {
     color: #f39c12;
 }
 
-.key-driver {
-    color: #7f8c8d;
-    font-size: 0.9rem;
+.companies {
+    color: #95a5a6;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
     font-style: italic;
-    margin-bottom: 1.5rem;
 }
 
 .sector-card button {
@@ -269,6 +265,226 @@ main {
 .sector-card button:hover {
     background: linear-gradient(135deg, #2980b9, #1f5f8b);
     transform: scale(1.05);
+}
+
+/* Advanced Features */
+.advanced-features {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.advanced-features h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.widgets-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.widget-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+    border-left: 5px solid #3498db;
+    transition: all 0.3s ease;
+}
+
+.widget-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.widget-card h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+}
+
+.stock-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
+    background: white;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.stock-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.stock-name {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stock-price {
+    color: #34495e;
+    font-weight: bold;
+}
+
+.stock-change.positive {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.stock-change.negative {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Chart Widget */
+.chart-widget {
+    grid-column: span 2;
+}
+
+#performanceChart {
+    width: 100%;
+    height: 200px;
+    background: white;
+    border-radius: 10px;
+}
+
+/* Email Alerts */
+.alert-setup {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.alert-setup input,
+.alert-setup select,
+.alert-setup button {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.alert-setup button {
+    background: #27ae60;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.alert-setup button:hover {
+    background: #229954;
+}
+
+#alertStatus {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Social Sharing */
+.social-sharing {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.social-sharing h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.sharing-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.share-btn.twitter {
+    background: #1da1f2;
+    color: white;
+}
+
+.share-btn.whatsapp {
+    background: #25d366;
+    color: white;
+}
+
+.share-btn.linkedin {
+    background: #0077b5;
+    color: white;
+}
+
+.share-btn.copy {
+    background: #6c757d;
+    color: white;
+}
+
+.share-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Shareable Card */
+.shareable-card {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.card-header h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.card-content {
+    margin: 2rem 0;
+}
+
+.top-gainer, .top-loser, .market-status {
+    background: rgba(255,255,255,0.2);
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.card-footer {
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 
 .news-section {
@@ -396,6 +612,7 @@ footer p {
     margin-bottom: 0.5rem;
 }
 
+/* Responsive Design */
 @media (max-width: 768px) {
     header h1 {
         font-size: 2.2rem;
@@ -407,22 +624,35 @@ footer p {
         gap: 0.5rem;
     }
     
-    #sector-rankings {
+    .sector-group {
         grid-template-columns: 1fr;
     }
     
-    .news-filter {
+    .chart-widget {
+        grid-column: span 1;
+    }
+    
+    .alert-setup {
+        flex-direction: column;
+    }
+    
+    .sharing-options {
         flex-direction: column;
         align-items: center;
     }
     
-    .sector-card {
-        padding: 1.5rem;
+    .share-btn {
+        width: 100%;
+        max-width: 250px;
     }
     
     .performance-badge {
         position: static;
         display: inline-block;
         margin-bottom: 1rem;
+    }
+    
+    .sector-card {
+        padding: 1.5rem;
     }
 }
