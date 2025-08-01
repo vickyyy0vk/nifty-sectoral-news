@@ -5,7 +5,7 @@
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
     color: #333;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -13,21 +13,41 @@ body {
 }
 
 header {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     padding: 2rem;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border-bottom: 3px solid #3498db;
 }
 
 header h1 {
     color: #2c3e50;
     margin-bottom: 0.5rem;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
+    font-weight: bold;
 }
 
 header p {
     color: #7f8c8d;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.market-ticker {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.ticker-item {
+    background: #34495e;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 main {
@@ -36,94 +56,233 @@ main {
     padding: 0 1rem;
 }
 
+.market-overview {
+    margin-bottom: 2rem;
+}
+
+.alert-banner {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    animation: pulse 2s infinite;
+}
+
+.alert-banner h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
 .rankings {
     background: white;
-    border-radius: 15px;
-    padding: 2rem;
+    border-radius: 20px;
+    padding: 2.5rem;
     margin-bottom: 2rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .rankings h2 {
     color: #2c3e50;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
+}
+
+.ranking-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.legend-green, .legend-red, .legend-neutral {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.legend-green {
+    background: #d4edda;
+    color: #155724;
+}
+
+.legend-red {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.legend-neutral {
+    background: #e2e3e5;
+    color: #383d41;
 }
 
 #sector-rankings {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
 }
 
 .sector-card {
     background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    border-radius: 10px;
-    padding: 1.5rem;
+    border-radius: 15px;
+    padding: 2rem;
     text-align: center;
-    border-left: 5px solid #3498db;
-    transition: transform 0.3s ease;
+    border-left: 6px solid #3498db;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sector-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #3498db, transparent);
 }
 
 .sector-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
 }
 
-.rank-1 { border-left-color: #f1c40f; }
-.rank-2 { border-left-color: #e67e22; }
-.rank-3 { border-left-color: #e74c3c; }
-.rank-4 { border-left-color: #9b59b6; }
-.rank-5 { border-left-color: #3498db; }
+/* Sector card variants */
+.gainer {
+    border-left-color: #27ae60;
+    background: linear-gradient(135deg, #e8f5e8, #d4edda);
+}
+
+.gainer::before {
+    background: linear-gradient(90deg, transparent, #27ae60, transparent);
+}
+
+.decliner {
+    border-left-color: #e74c3c;
+    background: linear-gradient(135deg, #ffeaea, #f8d7da);
+}
+
+.decliner::before {
+    background: linear-gradient(90deg, transparent, #e74c3c, transparent);
+}
+
+.neutral {
+    border-left-color: #f39c12;
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+}
+
+.neutral::before {
+    background: linear-gradient(90deg, transparent, #f39c12, transparent);
+}
 
 .rank {
     display: inline-block;
     background: #2c3e50;
     color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
+    padding: 0.4rem 1rem;
+    border-radius: 25px;
     font-weight: bold;
     margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.performance-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.performance-badge.positive {
+    background: #27ae60;
+    color: white;
+}
+
+.performance-badge.negative {
+    background: #e74c3c;
+    color: white;
+}
+
+.performance-badge.neutral {
+    background: #f39c12;
+    color: white;
 }
 
 .sector-card h3 {
     color: #2c3e50;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.3rem;
 }
 
 .growth {
-    color: #27ae60;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.growth.positive {
+    color: #27ae60;
+}
+
+.growth.negative {
+    color: #e74c3c;
+}
+
+.growth.neutral {
+    color: #f39c12;
+}
+
+.key-driver {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    font-style: italic;
+    margin-bottom: 1.5rem;
 }
 
 .sector-card button {
-    background: #3498db;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
     border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 .sector-card button:hover {
-    background: #2980b9;
+    background: linear-gradient(135deg, #2980b9, #1f5f8b);
+    transform: scale(1.05);
 }
 
 .news-section {
     background: white;
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
 .news-section h2 {
     color: #2c3e50;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     text-align: center;
-    font-size: 1.8rem;
+    font-size: 2rem;
 }
 
 .news-filter {
@@ -137,64 +296,115 @@ main {
 .filter-btn {
     background: #ecf0f1;
     border: none;
-    padding: 0.7rem 1.5rem;
+    padding: 0.8rem 1.5rem;
     border-radius: 25px;
     cursor: pointer;
     transition: all 0.3s ease;
+    font-weight: bold;
+    font-size: 0.9rem;
 }
 
 .filter-btn:hover, .filter-btn.active {
-    background: #3498db;
+    background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
+    transform: translateY(-2px);
 }
 
 .news-item {
     background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    border-left: 4px solid #3498db;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    border-left: 5px solid #3498db;
     transition: all 0.3s ease;
+    position: relative;
 }
 
 .news-item:hover {
     background: #e9ecef;
-    transform: translateX(5px);
+    transform: translateX(8px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.news-item.breaking {
+    border-left-color: #e74c3c;
+    background: linear-gradient(135deg, #ffeaea, #f8d7da);
+}
+
+.news-item.positive {
+    border-left-color: #27ae60;
+    background: linear-gradient(135deg, #e8f5e8, #d4edda);
 }
 
 .news-item h3 {
     color: #2c3e50;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
 }
 
 .news-item p {
     color: #7f8c8d;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
 }
 
 .news-meta {
     font-size: 0.9rem;
     color: #95a5a6;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.breaking-badge {
+    background: #e74c3c;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0.5; }
 }
 
 .loading {
     text-align: center;
-    padding: 2rem;
+    padding: 3rem;
     color: #7f8c8d;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
 }
 
 footer {
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98);
     text-align: center;
-    padding: 1rem;
+    padding: 2rem;
     margin-top: 2rem;
     color: #7f8c8d;
+    border-top: 3px solid #3498db;
+}
+
+footer p {
+    margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {
     header h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+    }
+    
+    .market-ticker {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
     }
     
     #sector-rankings {
@@ -204,5 +414,15 @@ footer {
     .news-filter {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .sector-card {
+        padding: 1.5rem;
+    }
+    
+    .performance-badge {
+        position: static;
+        display: inline-block;
+        margin-bottom: 1rem;
     }
 }
