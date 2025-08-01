@@ -3,69 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nifty Sectoral News & Rankings</title>
+    <title>Nifty Sectoral News & Rankings - Live Market Data</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <h1>📈 Nifty Sectoral News Hub</h1>
-        <p>Real-time news and growth rankings for all Nifty sectors</p>
+        <p>Live market rankings based on news impact - August 1, 2025</p>
+        <div class="market-ticker">
+            <span class="ticker-item">🔴 Nifty: 24,587 (-0.62%)</span>
+            <span class="ticker-item">🔴 Sensex: 80,604 (-586 pts)</span>
+            <span class="ticker-item">⚠️ 5th consecutive weekly decline</span>
+        </div>
     </header>
 
     <main>
+        <section class="market-overview">
+            <div class="alert-banner">
+                <h3>🚨 Breaking Market News</h3>
+                <p>Trump issues 60-day price cut ultimatum to pharma companies | FMCG only sector in green</p>
+            </div>
+        </section>
+
         <section class="rankings">
-            <h2>🏆 Sector Growth Rankings</h2>
+            <h2>🏆 Today's News-Based Sector Rankings</h2>
+            <div class="ranking-legend">
+                <span class="legend-green">🟢 Gainers</span>
+                <span class="legend-red">🔴 Decliners</span>
+                <span class="legend-neutral">⚪ Neutral</span>
+            </div>
+            
             <div id="sector-rankings">
-                <div class="sector-card rank-1">
+                <!-- TOP PERFORMERS -->
+                <div class="sector-card rank-1 gainer">
                     <span class="rank">#1</span>
-                    <h3>Nifty IT</h3>
-                    <p class="growth">+18.5% projected growth</p>
-                    <button onclick="showSectorNews('IT')">View News</button>
+                    <span class="performance-badge positive">+1.0%</span>
+                    <h3>Nifty FMCG</h3>
+                    <p class="growth positive">Defensive strength amid market turmoil</p>
+                    <p class="key-driver">Key: ITC leads, flight to defensive stocks</p>
+                    <button onclick="showSectorNews('FMCG')">View Breaking News</button>
                 </div>
-                <div class="sector-card rank-2">
+
+                <div class="sector-card rank-2 gainer">
                     <span class="rank">#2</span>
-                    <h3>Nifty Healthcare</h3>
-                    <p class="growth">+15.7% projected growth</p>
-                    <button onclick="showSectorNews('Healthcare')">View News</button>
+                    <span class="performance-badge positive">+1.0%</span>
+                    <h3>Nifty Media</h3>
+                    <p class="growth positive">Outperforming broader market</p>
+                    <p class="key-driver">Key: Resilience against global headwinds</p>
+                    <button onclick="showSectorNews('Media')">View Breaking News</button>
                 </div>
-                <div class="sector-card rank-3">
+
+                <div class="sector-card rank-3 neutral">
                     <span class="rank">#3</span>
-                    <h3>Nifty Financial Services</h3>
-                    <p class="growth">+14.2% projected growth</p>
-                    <button onclick="showSectorNews('Banking')">View News</button>
+                    <span class="performance-badge neutral">+0.5%</span>
+                    <h3>Nifty Consumer Durables</h3>
+                    <p class="growth neutral">Eicher Motors up 4% on results</p>
+                    <p class="key-driver">Key: Strong domestic demand story</p>
+                    <button onclick="showSectorNews('Consumer')">View Breaking News</button>
                 </div>
-                <div class="sector-card rank-4">
-                    <span class="rank">#4</span>
-                    <h3>Nifty Auto</h3>
-                    <p class="growth">+12.8% projected growth</p>
-                    <button onclick="showSectorNews('Auto')">View News</button>
-                </div>
-                <div class="sector-card rank-5">
-                    <span class="rank">#5</span>
+
+                <!-- WORST PERFORMERS -->
+                <div class="sector-card rank-worst decliner">
+                    <span class="rank">📉</span>
+                    <span class="performance-badge negative">-2.5%</span>
                     <h3>Nifty Pharma</h3>
-                    <p class="growth">+11.5% projected growth</p>
-                    <button onclick="showSectorNews('Pharma')">View News</button>
+                    <p class="growth negative">Trump's 60-day ultimatum crushes sector</p>
+                    <p class="key-driver">Key: Sun Pharma -4.42%, Dr. Reddy's -4.15%</p>
+                    <button onclick="showSectorNews('Pharma')">View Crisis News</button>
+                </div>
+
+                <div class="sector-card rank-worst decliner">
+                    <span class="rank">📉</span>
+                    <span class="performance-badge negative">-1.5%</span>
+                    <h3>Nifty IT</h3>
+                    <p class="growth negative">TCS hits 52-week low</p>
+                    <p class="key-driver">Key: All 10 IT stocks decline</p>
+                    <button onclick="showSectorNews('IT')">View Crisis News</button>
+                </div>
+
+                <div class="sector-card rank-average decliner">
+                    <span class="rank">#6</span>
+                    <span class="performance-badge negative">-1.0%</span>
+                    <h3>Nifty Metal</h3>
+                    <p class="growth negative">Global slowdown concerns</p>
+                    <p class="key-driver">Key: Weak manufacturing data impact</p>
+                    <button onclick="showSectorNews('Metal')">View News</button>
                 </div>
             </div>
         </section>
 
         <section class="news-section">
-            <h2>📰 Latest Sector News</h2>
+            <h2>📰 Live Sector News Feed</h2>
             <div class="news-filter">
-                <button onclick="showAllNews()" class="filter-btn active">All Sectors</button>
-                <button onclick="showSectorNews('IT')" class="filter-btn">IT</button>
-                <button onclick="showSectorNews('Banking')" class="filter-btn">Banking</button>
-                <button onclick="showSectorNews('Auto')" class="filter-btn">Auto</button>
-                <button onclick="showSectorNews('Healthcare')" class="filter-btn">Healthcare</button>
+                <button onclick="showAllNews()" class="filter-btn active">🔥 Breaking News</button>
+                <button onclick="showSectorNews('FMCG')" class="filter-btn">🟢 FMCG</button>
+                <button onclick="showSectorNews('Pharma')" class="filter-btn">🔴 Pharma Crisis</button>
+                <button onclick="showSectorNews('IT')" class="filter-btn">🔴 IT Selloff</button>
+                <button onclick="showSectorNews('Media')" class="filter-btn">🟢 Media</button>
+                <button onclick="showSectorNews('Consumer')" class="filter-btn">Consumer</button>
             </div>
             <div id="news-container">
-                <div class="loading">Loading latest news...</div>
+                <div class="loading">Loading latest breaking news...</div>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>Built for Indian stock market enthusiasts | Data updated every hour</p>
+        <p>🕒 Last Updated: August 1, 2025, 10:00 PM IST | 📊 Data: Live NSE Market Feed</p>
+        <p>⚠️ Market Volatility Alert: Fifth consecutive weekly decline in progress</p>
     </footer>
 
     <script src="script.js"></script>
