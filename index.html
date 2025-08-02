@@ -2,30 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nifty Sectoral News Hub</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    .breaking-news-section { background: #fff3cd; border: 1px solid #ffeeba; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
-    .breaking-news-section h2 { color: #856404; margin-bottom: 1rem; }
-    .breaking-news-container { display: flex; flex-direction: column; gap: 0.8rem; }
-    .breaking-news-item { background: #fff; border-radius: 8px; padding: 1rem; border-left: 4px solid #ffeeba; transition: background 0.3s ease; }
-    .breaking-news-item:hover { background: #ffe8a1; }
-    .breaking-news-item h3 { margin-bottom: 0.5rem; font-size: 1rem; }
-    .breaking-news-item p { font-size: 0.9rem; color: #6c757d; }
-    .performance-grid, .potential-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
-    .sector-performance-item, .potential-item { flex: 1 1 140px; padding: 1rem; border-radius: 8px; }
-    .sector-performance-item.gainer, .potential-item.high-potential { background: #e8f5e9; }
-    .sector-performance-item.decliner, .potential-item.high-risk { background: #ffebee; }
-    .sector-performance-item.neutral, .potential-item.medium-potential { background: #fffde7; }
-    .today-change.positive, .potential-change.positive { color: #2e7d32; font-weight: bold; }
-    .today-change.negative, .potential-change.negative { color: #c62828; font-weight: bold; }
-    .sector-name { font-weight: bold; color: #2c3e50; }
-    .strategy-section { margin-top: 2rem; }
-    .strategy-card { margin:1rem 0; background:#f5f7fa;border-radius:10px;padding:1rem 2rem;}
-    .buy-strategy { border-left: 6px solid #2e7d32; }
-    .sell-strategy { border-left: 6px solid #c62828; }
-    .hold-strategy { border-left: 6px solid #fbc02d; }
+    .breaking-news-section{background:#fff3cd;border-radius:10px;padding:1.5rem 1rem;margin-bottom:2rem;}
+    .breaking-news-item{background:#fff;padding:1rem;margin-bottom:0.5rem;border-left:4px solid #ffeeba;border-radius:8px;}
+    .performance-grid,.potential-grid{display:flex;flex-wrap:wrap;gap:1rem;}
+    .sector-performance-item,.potential-item{flex:1 0 180px;padding:1rem;border-radius:10px;background:#f7f7fb;}
+    .gainer{background:#e8f5e9;}
+    .decliner{background:#ffebee;}
+    .neutral{background:#fffde7;}
+    .today-change.positive{color:#1b883a;font-weight:bold;}
+    .today-change.negative{color:#b71c1c;font-weight:bold;}
+    .sector-name{font-weight:bold;}
+    .strategy-section{margin-top:2rem;}
+    .strategy-card{background:#f7faf9;padding:1rem 1rem;border-radius:10px;margin-bottom:1rem;}
+    .buy-strategy{border-left:4px solid #388e3c;}
+    .sell-strategy{border-left:4px solid #b71c1c;}
+    .hold-strategy{border-left:4px solid #fbc02d;}
   </style>
 </head>
 <body>
@@ -35,48 +29,27 @@
     <p id="next-trading-day"></p>
     <p id="last-updated"></p>
   </header>
-
-  <!-- Breaking News Section -->
   <section class="breaking-news-section">
     <h2>🚨 Breaking News</h2>
-    <div id="breaking-news-container" class="breaking-news-container">
-      <div class="loading">Loading latest breaking news...</div>
-    </div>
+    <div id="breaking-news-container"><div>Loading...</div></div>
   </section>
-
-  <!-- Today's Actual Performance dynamic grid (populated by js) -->
   <section>
     <h2>📈 Today's Actual Performance</h2>
     <div class="performance-grid"></div>
   </section>
-
-  <!-- Next Trading Day Potential dynamic grid (populated by js) -->
   <section>
     <h2>🎯 Next Trading Day Growth Potential</h2>
     <div class="potential-grid"></div>
   </section>
-
-  <!-- Strategy: cards will be filled by js -->
   <section class="strategy-section">
     <h2>🎯 Trading Strategy Based on Latest Data</h2>
-    <div class="strategy-card buy-strategy">
-      <h3>💚 BUY OPPORTUNITIES</h3>
-      <ul></ul>
-    </div>
-    <div class="strategy-card sell-strategy">
-      <h3>❤️ SELL/AVOID</h3>
-      <ul></ul>
-    </div>
-    <div class="strategy-card hold-strategy">
-      <h3>🤝 HOLD/MONITOR</h3>
-      <ul></ul>
-    </div>
+    <div class="strategy-card buy-strategy"><h3>💚 BUY OPPORTUNITIES</h3><ul></ul></div>
+    <div class="strategy-card sell-strategy"><h3>❤️ SELL/AVOID</h3><ul></ul></div>
+    <div class="strategy-card hold-strategy"><h3>🤝 HOLD/MONITOR</h3><ul></ul></div>
   </section>
-
   <footer>
     <p id="footer-update"></p>
   </footer>
-
   <script src="script.js"></script>
   <script src="nse_data_updater.js"></script>
 </body>
