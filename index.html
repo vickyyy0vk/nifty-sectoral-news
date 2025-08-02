@@ -4,50 +4,36 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nifty Sectoral News Hub</title>
-  <!-- Always use relative path for CSS -->
   <link rel="stylesheet" href="style.css">
   <style>
-    .breaking-news-section {
-      background: #fff3cd;
-      border: 1px solid #ffeeba;
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .breaking-news-section h2 {
-      color: #856404;
-      margin-bottom: 1rem;
-    }
-    .breaking-news-container {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .breaking-news-item {
-      background: #fff;
-      border-radius: 8px;
-      padding: 1rem;
-      border-left: 4px solid #ffeeba;
-      transition: background 0.3s ease;
-    }
-    .breaking-news-item:hover {
-      background: #ffe8a1;
-    }
-    .breaking-news-item h3 {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-    }
-    .breaking-news-item p {
-      font-size: 0.9rem;
-      color: #6c757d;
-    }
+    .breaking-news-section { background: #fff3cd; border: 1px solid #ffeeba; border-radius: 10px; padding: 1.5rem; margin-bottom: 2rem; }
+    .breaking-news-section h2 { color: #856404; margin-bottom: 1rem; }
+    .breaking-news-container { display: flex; flex-direction: column; gap: 0.8rem; }
+    .breaking-news-item { background: #fff; border-radius: 8px; padding: 1rem; border-left: 4px solid #ffeeba; transition: background 0.3s ease; }
+    .breaking-news-item:hover { background: #ffe8a1; }
+    .breaking-news-item h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+    .breaking-news-item p { font-size: 0.9rem; color: #6c757d; }
+    .performance-grid, .potential-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+    .sector-performance-item, .potential-item { flex: 1 1 140px; padding: 1rem; border-radius: 8px; }
+    .sector-performance-item.gainer, .potential-item.high-potential { background: #e8f5e9; }
+    .sector-performance-item.decliner, .potential-item.high-risk { background: #ffebee; }
+    .sector-performance-item.neutral, .potential-item.medium-potential { background: #fffde7; }
+    .today-change.positive, .potential-change.positive { color: #2e7d32; font-weight: bold; }
+    .today-change.negative, .potential-change.negative { color: #c62828; font-weight: bold; }
+    .sector-name { font-weight: bold; color: #2c3e50; }
+    .strategy-section { margin-top: 2rem; }
+    .strategy-card { margin:1rem 0; background:#f5f7fa;border-radius:10px;padding:1rem 2rem;}
+    .buy-strategy { border-left: 6px solid #2e7d32; }
+    .sell-strategy { border-left: 6px solid #c62828; }
+    .hold-strategy { border-left: 6px solid #fbc02d; }
   </style>
 </head>
 <body>
   <header>
-    <h1>📊 Today's Performance vs Monday's Growth Potential</h1>
-    <p>🔔 Markets Closed for Weekend</p>
-    <p>Next Trading Session: Monday, August 4, 2025 at 9:15 AM IST</p>
+    <h1>📊 Today's Performance vs Next Trading Day Growth Potential</h1>
+    <p id="market-status"></p>
+    <p id="next-trading-day"></p>
+    <p id="last-updated"></p>
   </header>
 
   <!-- Breaking News Section -->
@@ -58,100 +44,37 @@
     </div>
   </section>
 
-  <section class="today-performance">
-    <h2>📈 Today's Actual Performance (Aug 1, 2025)</h2>
-    <div class="performance-grid">
-      <div class="sector-performance-item gainer">
-        <span class="sector-name">Nifty FMCG</span>
-        <span class="today-change positive">+0.69%</span>
-        <span class="sector-status">Market Leader</span>
-      </div>
-      <div class="sector-performance-item decliner">
-        <span class="sector-name">Nifty Pharma</span>
-        <span class="today-change negative">-3.33%</span>
-        <span class="sector-status">Trump Crisis</span>
-      </div>
-      <!-- You can add more sectors similarly if you wish -->
-    </div>
-    <div class="today-summary">
-      <div class="summary-stat positive">
-        <span class="stat-label">📈 Gainers</span>
-        <span class="stat-value">2 sectors</span>
-      </div>
-      <div class="summary-stat neutral">
-        <span class="stat-label">➡️ Flat</span>
-        <span class="stat-value">3 sectors</span>
-      </div>
-      <div class="summary-stat negative">
-        <span class="stat-label">📉 Losers</span>
-        <span class="stat-value">9 sectors</span>
-      </div>
-    </div>
+  <!-- Today's Actual Performance dynamic grid (populated by js) -->
+  <section>
+    <h2>📈 Today's Actual Performance</h2>
+    <div class="performance-grid"></div>
   </section>
 
-  <section class="monday-potential">
-    <h2>🎯 Monday's Growth Potential (Aug 4, 2025)</h2>
-    <div class="potential-grid">
-      <div class="potential-item high-potential">
-        <span class="sector-name">Nifty Auto</span>
-        <span class="potential-change">+2.5% to +4.0%</span>
-        <span class="potential-reason">EV Policy Announcement</span>
-      </div>
-      <div class="potential-item high-risk">
-        <span class="sector-name">Nifty Pharma</span>
-        <span class="potential-change">-3.5% to -1.0%</span>
-        <span class="potential-reason">Trump Deadline Pressure</span>
-      </div>
-      <!-- Add more sectors in the same way if you want -->
-    </div>
-    <div class="potential-summary">
-      <div class="summary-stat high-potential">
-        <span class="stat-label">🚀 High Potential</span>
-        <span class="stat-value">2 sectors</span>
-      </div>
-      <div class="summary-stat medium-potential">
-        <span class="stat-label">📈 Medium Potential</span>
-        <span class="stat-value">3 sectors</span>
-      </div>
-      <div class="summary-stat negative-potential">
-        <span class="stat-label">⚠️ Risk Sectors</span>
-        <span class="stat-value">5 sectors</span>
-      </div>
-    </div>
+  <!-- Next Trading Day Potential dynamic grid (populated by js) -->
+  <section>
+    <h2>🎯 Next Trading Day Growth Potential</h2>
+    <div class="potential-grid"></div>
   </section>
 
+  <!-- Strategy: cards will be filled by js -->
   <section class="strategy-section">
-    <h2>🎯 Monday Trading Strategy Based on Today's Performance</h2>
-    <div class="strategy-recommendations">
-      <div class="strategy-card buy-strategy">
-        <h3>💚 BUY OPPORTUNITIES</h3>
-        <ul>
-          <li><strong>Nifty Auto:</strong> Today's -0.85% creates entry ahead of EV policy</li>
-          <li><strong>Nifty Metal:</strong> Oversold at -1.12%, rebound expected</li>
-          <li><strong>Nifty Infrastructure:</strong> Budget allocation hopes</li>
-        </ul>
-      </div>
-      <div class="strategy-card sell-strategy">
-        <h3>❤️ SELL/AVOID</h3>
-        <ul>
-          <li><strong>Nifty Pharma:</strong> Today's -3.33% may extend on Trump pressure</li>
-          <li><strong>Nifty IT:</strong> -1.53% likely to continue</li>
-          <li><strong>Nifty Realty:</strong> -1.98% drop signals more pain</li>
-        </ul>
-      </div>
-      <div class="strategy-card hold-strategy">
-        <h3>🤝 HOLD/MONITOR</h3>
-        <ul>
-          <li><strong>Nifty FMCG:</strong> +0.69% leader, profit booking risk</li>
-          <li><strong>Nifty Bank:</strong> -0.62%, RBI speech will decide direction</li>
-          <li><strong>Nifty Media:</strong> +1.00% gainer, sustainability questionable</li>
-        </ul>
-      </div>
+    <h2>🎯 Trading Strategy Based on Latest Data</h2>
+    <div class="strategy-card buy-strategy">
+      <h3>💚 BUY OPPORTUNITIES</h3>
+      <ul></ul>
+    </div>
+    <div class="strategy-card sell-strategy">
+      <h3>❤️ SELL/AVOID</h3>
+      <ul></ul>
+    </div>
+    <div class="strategy-card hold-strategy">
+      <h3>🤝 HOLD/MONITOR</h3>
+      <ul></ul>
     </div>
   </section>
 
   <footer>
-    <p>🕒 Last Updated: Aug 2 2025, 10:00 AM IST</p>
+    <p id="footer-update"></p>
   </footer>
 
   <script src="script.js"></script>
