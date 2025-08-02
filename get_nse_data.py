@@ -30,11 +30,11 @@ def fetch_news():
     return bt+mc+te
 
 def next_trading_day():
-    now = datetime.now()
-    w = now.weekday()
+    now=datetime.now()
+    w=now.weekday()
     days = 3 if w==4 else 2 if w==5 else 1
-    nxt = now + timedelta(days=days)
-    return nxt.strftime("%A, %B %d, %Y"), nxt.strftime("%b %d, %Y")
+    nxt=now+timedelta(days=days)
+    return nxt.strftime("%A, %B %d, %Y")
 
 def make_strategy(sectors):
     sorted_secs = sorted(sectors,key=lambda x:x['percent_change'],reverse=True)
@@ -43,35 +43,25 @@ def make_strategy(sectors):
     hold   = [s['name'] for s in sectors if -0.5<s['percent_change']<0.5]
     return {'buy':buy,'sell':avoid,'hold':hold}
 
-def make_potential(sectors):
-    # Demo logic: mapping top gainers/losers to growth or risk
-    return [{'sector':s['name'],'potential':f"{s['percent_change']:.2f}%",'desc':'Likely to move'} for s in sectors]
-
-def make_js(sectors,news,strategy,today_str,next_str,last_updated):
+def make_js(sectors,news,strategy,nextstr,last_updated):
     js = f"""\
 // Auto-generated at {last_updated}
 const sectorData = {json.dumps(sectors)};
 const liveFinancialNews = {json.dumps(news)};
 const strategyData = {json.dumps(strategy)};
-const todayStr = "{today_str}";
-const nextStr = "{next_str}";
+const nextStr = "{nextstr}";
 const lastUpdated = "{last_updated}";
 
-// --- Today's Performance ---
 function updateTodayPerformance() {{
   let grid = '';
   sectorData.forEach(s => {{
     grid += `<div class="sector-performance-item ${(s.percent_change>0.2?'gainer':s.percent_change<-0.2?'decliner':'neutral')}">
       <span class="sector-name">${{s.name}}</span>
-      <span class="today-change ${(s.percent_change>0.2?'positive':s.percent_change<-0.2?'negative':'neutral')}">
-        ${{s.percent_change>0?'+':''}}${{s.percent_change.toFixed(2)}}%
-      </span>
+      <span class="today-change ${(s.percent_change>0.2?'positive':s.percent_change<-0.2?'negative':'neutral')}">${{s.percent_change>0?'+':''}}${{s.percent_change.toFixed(2)}}%</span>
     </div>`;
   }});
   document.querySelector('.performance-grid').innerHTML = grid;
 }}
-
-// --- Breaking News ---
 function fetchBreakingNews() {{
   const news = liveFinancialNews.slice(0, 5);
   const container = document.getElementById('breaking-news-container');
@@ -84,8 +74,6 @@ function fetchBreakingNews() {{
   }});
   container.innerHTML = html || '<div>No breaking news available.</div>';
 }}
-
-// --- Next Trading Day Growth Potential ---
 function updatePotential() {{
   let grid = '';
   sectorData.slice(0,2).forEach(s => {{
@@ -104,8 +92,6 @@ function updatePotential() {{
   });
   document.querySelector('.potential-grid').innerHTML = grid;
 }}
-
-// --- Trading Strategy ---
 function updateStrategy() {{
   document.querySelector('.strategy-card.buy-strategy ul').innerHTML =
     strategyData.buy.map(s=>`<li><strong>${{s}}</strong>: Fresh buy signal</li>`).join('');
@@ -114,7 +100,6 @@ function updateStrategy() {{
   document.querySelector('.strategy-card.hold-strategy ul').innerHTML =
     strategyData.hold.map(s=>`<li><strong>${{s}}</strong>: Rangebound</li>`).join('');
 }}
-
 document.addEventListener('DOMContentLoaded', ()=>{
   document.getElementById('market-status').textContent = "🔔 Markets Closed for Weekend";
   document.getElementById('next-trading-day').textContent = `Next Trading Session: ${nextStr} at 9:15 AM IST`;
@@ -125,7 +110,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   updateStrategy();
   fetchBreakingNews();
   setInterval(fetchBreakingNews, 180000);
-});
+}});
 """
     with open('nse_data_updater.js','w') as f: f.write(js)
     print("🟢 JS updated")
@@ -134,11 +119,10 @@ def main():
     s = create_session()
     secs = fetch_sectors(s)
     news = fetch_news()
-    tstr  = datetime.now().strftime("%A, %b %d, %Y")
-    ntstr = next_trading_day()[0]
+    ntstr = next_trading_day()
     last_updated = datetime.now().strftime("%Y-%m-%d | %I:%M %p")
     strat = make_strategy(secs)
-    make_js(secs, news, strat, tstr, ntstr, last_updated)
+    make_js(secs, news, strat, ntstr, last_updated)
 
 if __name__=="__main__":
     main()
