@@ -1,0 +1,32 @@
+name: Auto-update Nifty Data
+
+on:
+  schedule:
+    # Runs every 3 minutes (adjust as needed; GitHub may enforce a minimum, so consider every 5-10 min for reliability)
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # Allow manual runs
+
+jobs:
+  update-nifty:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install requirements
+        run: pip install requests beautifulsoup4
+
+      - name: Scrape and update JS data
+        run: python get_nse_data.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git add nse_data_updater.js
+          git commit -m "Automated sector/news update" || echo "No changes to commit"
+          git push
