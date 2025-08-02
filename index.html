@@ -1,253 +1,61 @@
-<!-- Enhanced Next Trading Day with Today's Performance -->
-<section class="next-trading-day">
-    <h2>📊 Today's Performance vs Monday's Growth Potential</h2>
-    
-    <div class="trading-day-alert">
-        <div class="market-closed-banner">
-            <h3>🔔 Markets Closed for Weekend</h3>
-            <p>Next Trading Session: Monday, August 4, 2025 at 9:15 AM IST</p>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nifty Sectoral News Hub</title>
+  <!-- Relative path to CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>📊 Today's Performance vs Monday's Growth Potential</h1>
+    <p>🔔 Markets Closed for Weekend</p>
+    <p>Next Trading Session: Monday, August 4, 2025 at 9:15 AM IST</p>
+  </header>
+
+  <!-- (Your existing HTML sections go here) -->
+
+  <section class="next-trading-day">
+    <h2>📈 Today's Actual Performance (Aug 1, 2025)</h2>
+    <div class="performance-grid">
+      <div class="sector-performance-item gainer">
+        <span class="sector-name">Nifty FMCG</span>
+        <span class="today-change positive">+1.02%</span>
+        <span class="sector-status">Market Leader</span>
+      </div>
+      <!-- … other sectors … -->
+      <div class="sector-performance-item worst">
+        <span class="sector-name">Nifty Pharma</span>
+        <span class="today-change negative">-2.47%</span>
+        <span class="sector-status">Trump Crisis</span>
+      </div>
     </div>
-    
-    <!-- Dual View: Today vs Monday -->
-    <div class="performance-comparison">
-        <!-- LEFT SIDE: Today's Actual Performance -->
-        <div class="today-performance">
-            <h3>📈 Today's Actual Performance (Aug 1, 2025)</h3>
-            <div class="performance-grid">
-                <div class="sector-performance-item gainer">
-                    <span class="sector-name">Nifty FMCG</span>
-                    <span class="today-change positive">+1.02%</span>
-                    <span class="sector-status">Market Leader</span>
-                </div>
-                <div class="sector-performance-item gainer">
-                    <span class="sector-name">Nifty Media</span>
-                    <span class="today-change positive">+0.98%</span>
-                    <span class="sector-status">Strong Close</span>
-                </div>
-                <div class="sector-performance-item neutral">
-                    <span class="sector-name">Nifty Consumer Durables</span>
-                    <span class="today-change neutral">+0.47%</span>
-                    <span class="sector-status">Moderate Gain</span>
-                </div>
-                <div class="sector-performance-item neutral">
-                    <span class="sector-name">Nifty Healthcare</span>
-                    <span class="today-change neutral">+0.23%</span>
-                    <span class="sector-status">Flat Close</span>
-                </div>
-                <div class="sector-performance-item neutral">
-                    <span class="sector-name">Nifty Financial Services</span>
-                    <span class="today-change neutral">-0.05%</span>
-                    <span class="sector-status">Nearly Flat</span>
-                </div>
-                <div class="sector-performance-item decliner">
-                    <span class="sector-name">Nifty Bank</span>
-                    <span class="today-change negative">-0.62%</span>
-                    <span class="sector-status">Weakness</span>
-                </div>
-                <div class="sector-performance-item decliner">
-                    <span class="sector-name">Nifty Private Bank</span>
-                    <span class="today-change negative">-0.78%</span>
-                    <span class="sector-status">Private Bank Drag</span>
-                </div>
-                <div class="sector-performance-item decliner">
-                    <span class="sector-name">Nifty Auto</span>
-                    <span class="today-change negative">-0.85%</span>
-                    <span class="sector-status">EV Concerns</span>
-                </div>
-                <div class="sector-performance-item decliner">
-                    <span class="sector-name">Nifty Metal</span>
-                    <span class="today-change negative">-1.12%</span>
-                    <span class="sector-status">Commodity Weak</span>
-                </div>
-                <div class="sector-performance-item decliner">
-                    <span class="sector-name">Nifty Oil & Gas</span>
-                    <span class="today-change negative">-1.18%</span>
-                    <span class="sector-status">Energy Selloff</span>
-                </div>
-                <div class="sector-performance-item worst">
-                    <span class="sector-name">Nifty PSU Bank</span>
-                    <span class="today-change negative">-1.45%</span>
-                    <span class="sector-status">Govt Bank Hit</span>
-                </div>
-                <div class="sector-performance-item worst">
-                    <span class="sector-name">Nifty IT</span>
-                    <span class="today-change negative">-1.53%</span>
-                    <span class="sector-status">Tech Rout</span>
-                </div>
-                <div class="sector-performance-item worst">
-                    <span class="sector-name">Nifty Realty</span>
-                    <span class="today-change negative">-1.98%</span>
-                    <span class="sector-status">Rate Fears</span>
-                </div>
-                <div class="sector-performance-item worst">
-                    <span class="sector-name">Nifty Pharma</span>
-                    <span class="today-change negative">-2.47%</span>
-                    <span class="sector-status">Trump Crisis</span>
-                </div>
-            </div>
-            
-            <!-- Today's Summary Stats -->
-            <div class="today-summary">
-                <div class="summary-stat positive">
-                    <span class="stat-label">📈 Gainers</span>
-                    <span class="stat-value">2 sectors</span>
-                </div>
-                <div class="summary-stat neutral">
-                    <span class="stat-label">➡️ Flat</span>
-                    <span class="stat-value">3 sectors</span>
-                </div>
-                <div class="summary-stat negative">
-                    <span class="stat-label">📉 Losers</span>
-                    <span class="stat-value">9 sectors</span>
-                </div>
-            </div>
-        </div>
-        
-        <!-- RIGHT SIDE: Monday's Growth Potential -->
-        <div class="monday-potential">
-            <h3>🎯 Monday's Growth Potential (Aug 4, 2025)</h3>
-            <div class="potential-grid">
-                <div class="potential-item high-potential">
-                    <span class="sector-name">Nifty Auto</span>
-                    <span class="potential-change">+2.5% to +4.0%</span>
-                    <span class="potential-reason">EV Policy Announcement</span>
-                    <span class="confidence-level">High Confidence</span>
-                </div>
-                <div class="potential-item high-potential">
-                    <span class="sector-name">Nifty Infrastructure</span>
-                    <span class="potential-change">+1.8% to +3.2%</span>
-                    <span class="potential-reason">Budget Allocation News</span>
-                    <span class="confidence-level">High Confidence</span>
-                </div>
-                <div class="potential-item medium-potential">
-                    <span class="sector-name">Nifty Metal</span>
-                    <span class="potential-change">+1.2% to +2.8%</span>
-                    <span class="potential-reason">Global Commodity Rebound</span>
-                    <span class="confidence-level">Medium Confidence</span>
-                </div>
-                <div class="potential-item medium-potential">
-                    <span class="sector-name">Nifty FMCG</span>
-                    <span class="potential-change">+0.8% to +1.5%</span>
-                    <span class="potential-reason">Defensive Continuation</span>
-                    <span class="confidence-level">Medium Confidence</span>
-                </div>
-                <div class="potential-item medium-potential">
-                    <span class="sector-name">Nifty Oil & Gas</span>
-                    <span class="potential-change">+0.5% to +1.8%</span>
-                    <span class="potential-reason">Energy Recovery Play</span>
-                    <span class="confidence-level">Medium Confidence</span>
-                </div>
-                <div class="potential-item low-potential">
-                    <span class="sector-name">Nifty Media</span>
-                    <span class="potential-change">-0.2% to +1.0%</span>
-                    <span class="potential-reason">Profit Booking Risk</span>
-                    <span class="confidence-level">Low Confidence</span>
-                </div>
-                <div class="potential-item low-potential">
-                    <span class="sector-name">Nifty Healthcare</span>
-                    <span class="potential-change">-0.5% to +0.8%</span>
-                    <span class="potential-reason">Mixed Signals</span>
-                    <span class="confidence-level">Low Confidence</span>
-                </div>
-                <div class="potential-item negative-potential">
-                    <span class="sector-name">Nifty Bank</span>
-                    <span class="potential-change">-0.8% to -0.2%</span>
-                    <span class="potential-reason">RBI Speech Impact</span>
-                    <span class="confidence-level">Watch Closely</span>
-                </div>
-                <div class="potential-item negative-potential">
-                    <span class="sector-name">Nifty PSU Bank</span>
-                    <span class="potential-change">-1.2% to -0.5%</span>
-                    <span class="potential-reason">Asset Quality Concerns</span>
-                    <span class="confidence-level">Watch Closely</span>
-                </div>
-                <div class="potential-item negative-potential">
-                    <span class="sector-name">Nifty Realty</span>
-                    <span class="potential-change">-1.5% to -0.8%</span>
-                    <span class="potential-reason">Interest Rate Pressure</span>
-                    <span class="confidence-level">Watch Closely</span>
-                </div>
-                <div class="potential-item high-risk">
-                    <span class="sector-name">Nifty IT</span>
-                    <span class="potential-change">-2.0% to -0.5%</span>
-                    <span class="potential-reason">Global Tech Weakness</span>
-                    <span class="confidence-level">High Risk</span>
-                </div>
-                <div class="potential-item high-risk">
-                    <span class="sector-name">Nifty Pharma</span>
-                    <span class="potential-change">-3.5% to -1.0%</span>
-                    <span class="potential-reason">Trump Deadline Pressure</span>
-                    <span class="confidence-level">High Risk</span>
-                </div>
-            </div>
-            
-            <!-- Monday's Potential Summary -->
-            <div class="potential-summary">
-                <div class="summary-stat high-potential">
-                    <span class="stat-label">🚀 High Potential</span>
-                    <span class="stat-value">2 sectors</span>
-                </div>
-                <div class="summary-stat medium-potential">
-                    <span class="stat-label">📈 Medium Potential</span>
-                    <span class="stat-value">3 sectors</span>
-                </div>
-                <div class="summary-stat negative-potential">
-                    <span class="stat-label">⚠️ Risk Sectors</span>
-                    <span class="stat-value">5 sectors</span>
-                </div>
-            </div>
-        </div>
+  </section>
+
+  <section class="next-trading-day">
+    <h2>🎯 Monday's Growth Potential (Aug 4, 2025)</h2>
+    <div class="potential-grid">
+      <div class="potential-item high-potential">
+        <span class="sector-name">Nifty Auto</span>
+        <span class="potential-change">+2.5% to +4.0%</span>
+        <span class="potential-reason">EV Policy Announcement</span>
+      </div>
+      <!-- … other sectors … -->
+      <div class="potential-item high-risk">
+        <span class="sector-name">Nifty Pharma</span>
+        <span class="potential-change">-3.5% to -1.0%</span>
+        <span class="potential-reason">Trump Deadline Pressure</span>
+      </div>
     </div>
-    
-    <!-- Trading Strategy Based on Analysis -->
-    <div class="strategy-section">
-        <h3>🎯 Monday Trading Strategy Based on Today's Performance</h3>
-        <div class="strategy-recommendations">
-            <div class="strategy-card buy-strategy">
-                <h4>💚 BUY OPPORTUNITIES</h4>
-                <ul>
-                    <li><strong>Nifty Auto:</strong> Today's -0.85% creates entry opportunity ahead of EV policy</li>
-                    <li><strong>Nifty Metal:</strong> Oversold at -1.12%, global commodity rebound expected</li>
-                    <li><strong>Nifty Infrastructure:</strong> Budget allocation hopes justify buying dips</li>
-                </ul>
-            </div>
-            <div class="strategy-card sell-strategy">
-                <h4>❤️ SELL/AVOID</h4>
-                <ul>
-                    <li><strong>Nifty Pharma:</strong> Today's -2.47% may extend further on Trump pressure</li>
-                    <li><strong>Nifty IT:</strong> -1.53% decline likely to continue on global tech fears</li>
-                    <li><strong>Nifty Realty:</strong> -1.98% drop signals more pain from rate concerns</li>
-                </ul>
-            </div>
-            <div class="strategy-card hold-strategy">
-                <h4>🤝 HOLD/MONITOR</h4>
-                <ul>
-                    <li><strong>Nifty FMCG:</strong> Today's +1.02% leader, but profit booking risk exists</li>
-                    <li><strong>Nifty Banking:</strong> -0.62% today, RBI speech will decide direction</li>
-                    <li><strong>Nifty Media:</strong> +0.98% gainer today, but sustainability questionable</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Live Countdown -->
-    <div class="countdown-section">
-        <h3>⏰ Time to Next Trading Session</h3>
-        <div id="trading-countdown" class="countdown-display">
-            <div class="countdown-item">
-                <span id="hours">00</span>
-                <label>Hours</label>
-            </div>
-            <div class="countdown-item">
-                <span id="minutes">00</span>
-                <label>Minutes</label>
-            </div>
-            <div class="countdown-item">
-                <span id="seconds">00</span>
-                <label>Seconds</label>
-            </div>
-        </div>
-        <p class="countdown-note">Markets open Monday at 9:15 AM IST</p>
-    </div>
-</section>
+  </section>
+
+  <footer>
+    <p>🕒 Last Updated: Aug 2 2025, 10:00 AM IST</p>
+  </footer>
+
+  <!-- Relative paths to JavaScript files -->
+  <script src="script.js"></script>
+  <script src="nse_data_updater.js"></script>
+</body>
+</html>
