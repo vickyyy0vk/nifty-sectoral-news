@@ -1,171 +1,152 @@
 import requests
 import json
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
-from typing import List, Dict
 
-# Headers for NSE site scraping
 HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
     'Accept': 'application/json, text/plain, */*',
     'Referer': 'https://www.nseindia.com'
 }
 
-# List of sectors to scrape (names only)
-SECTORS = {
-    'NIFTY FMCG': None,
-    'NIFTY PHARMA': None,
-    'NIFTY IT': None,
-    'NIFTY BANK': None,
-    'NIFTY AUTO': None,
-    'NIFTY MEDIA': None,
-    'NIFTY METAL': None,
-    'NIFTY REALTY': None,
-    'NIFTY ENERGY': None,
-    'NIFTY PSU BANK': None,
-    'NIFTY PRIVATE BANK': None,
-    'NIFTY FINANCIAL SERVICES': None,
-    'NIFTY HEALTHCARE INDEX': None,
-    'NIFTY CONSUMER DURABLES': None
-}
+SECTORS = [
+    'NIFTY FMCG', 'NIFTY PHARMA', 'NIFTY IT', 'NIFTY BANK', 'NIFTY AUTO',
+    'NIFTY MEDIA', 'NIFTY METAL', 'NIFTY REALTY', 'NIFTY ENERGY', 'NIFTY PSU BANK',
+    'NIFTY PRIVATE BANK', 'NIFTY FINANCIAL SERVICES', 'NIFTY HEALTHCARE INDEX', 'NIFTY CONSUMER DURABLES'
+]
 
-def create_session() -> requests.Session:
-    """Initialize NSE session to obtain cookies."""
+def create_session():
     session = requests.Session()
     session.headers.update(HEADERS)
-    # Hit homepage to establish session cookies
     session.get('https://www.nseindia.com', timeout=5)
     time.sleep(1)
     return session
 
-def fetch_sector_data(session: requests.Session) -> List[Dict]:
-    """
-    Fetch true NSE sector index percent changes via the allIndices endpoint.
-    Returns a list of dicts with name, last_price, percent_change.
-    """
-    try:
-        resp = session.get('https://www.nseindia.com/api/allIndices', timeout=10)
-        resp.raise_for_status()
-        data = resp.json().get('data', [])
-    except Exception as e:
-        print(f"❌ Failed to fetch allIndices: {e}")
-        return []
-
+def fetch_sector_data(session):
+    resp = session.get('https://www.nseindia.com/api/allIndices', timeout=10)
+    data = resp.json().get('data', [])
     results = []
-    for sector_name in SECTORS:
-        match = next((item for item in data if item.get('index') == sector_name), None)
-        if match:
-            last = float(match.get('last', 0))
-            pct  = float(match.get('pChange', 0))
+    for sector in SECTORS:
+        found = next((item for item in data if item['index'] == sector), None)
+        if found:
             results.append({
-                'name': sector_name,
-                'last_price': last,
-                'percent_change': pct
+                'name': sector,
+                'last_price': float(found.get('last', 0)),
+                'percent_change': float(found.get('pChange', 0))
             })
-            print(f"✅ {sector_name}: {pct:+.2f}%")
-        else:
-            print(f"⚠️ {sector_name} not found in allIndices")
     return results
 
-# Business Today news scraper
-def fetch_business_today_economy() -> List[Dict]:
+def fetch_bt():
     url = "https://www.businesstoday.in/latest/economy"
-    r = requests.get(url, headers={'User-Agent':'Mozilla/5.0'}, timeout=10)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
-    articles = []
-    for a in soup.select("ul.listingNews li a"):
-        title = a.get_text(strip=True)
-        link = a['href']
-        if not link.startswith('http'):
-            link = "https://www.businesstoday.in" + link
-        articles.append({'title': title, 'url': link, 'source': 'Business Today'})
-    return articles
+    soup = BeautifulSoup(requests.get(url, headers=HEADERS).text, "html.parser")
+    return [{
+        'title': a.get_text(strip=True), 'url': ("https://www.businesstoday.in" + a["href"]), 'source': 'Business Today'
+    } for a in soup.select("ul.listingNews li a")]
 
-# MoneyControl news scraper
-def fetch_moneycontrol_market_news() -> List[Dict]:
+def fetch_mc():
     url = "https://www.moneycontrol.com/news/business/markets/"
-    r = requests.get(url, headers={'User-Agent':'Mozilla/5.0'}, timeout=10)
-    r.raise_for_status()
-    soup = BeautifulSoup(r.text, 'html.parser')
-    articles = []
-    for div in soup.select("div.listingnews_block article"):
-        a = div.find('a', href=True)
-        title = a.get_text(strip=True)
-        link = a['href']
-        articles.append({'title': title, 'url': link, 'source': 'MoneyControl'})
-    return articles
+    soup = BeautifulSoup(requests.get(url, headers=HEADERS).text, "html.parser")
+    return [{
+        'title': a.get_text(strip=True), 'url': a['href'], 'source': 'MoneyControl'
+    } for div in soup.select("div.listingnews_block article") if (a:=div.find("a", href=True))]
 
-# Trading Economics API (free) news
-def fetch_tradingeconomics_india_news() -> List[Dict]:
+def fetch_te():
     url = "https://api.tradingeconomics.com/news/country/india?c=guest:guest"
-    r = requests.get(url, timeout=10)
-    r.raise_for_status()
-    data = r.json()
-    return [
-        {'title': item.get('title'),
-         'url': item.get('url'),
-         'source': item.get('source')}
-        for item in data
-    ]
+    data = requests.get(url, timeout=6).json()
+    return [{
+        'title': item.get('title'), 'url': item.get('url'), 'source': item.get('source')
+    } for item in data][:10]
 
-def generate_js(sectors: List[Dict], news: List[Dict]):
-    """Generate nse_data_updater.js with live sector + news data."""
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    js = f"""// Auto-generated on {timestamp}
-const realNSEData = {json.dumps(sectors, indent=2)};
-const liveFinancialNews = {json.dumps(news, indent=2)};
+def next_trading_day():
+    now = datetime.now()
+    w = now.weekday()
+    if w==4: days=3 # Friday
+    elif w==5: days=2 # Saturday
+    else: days=1
+    nxt = now + timedelta(days=days)
+    return nxt.strftime("%A, %B %d, %Y"), nxt.strftime("%b %d, %Y")
 
-// Update sector cards
-function updateWebsiteWithRealNSEData() {{
-  document.querySelectorAll('.sector-card').forEach(card => {{
-    const nameEl = card.querySelector('h3');
-    if (!nameEl) return;
-    const sector = nameEl.textContent.trim();
-    const sd = realNSEData.find(s => s.name === sector);
-    if (sd) {{
-      const badge = card.querySelector('.performance-badge');
-      badge.textContent = (sd.percent_change >= 0 ? '+' : '') + sd.percent_change.toFixed(2) + '%';
-      badge.className = 'performance-badge ' + (sd.percent_change > 0 ? 'positive' : sd.percent_change < 0 ? 'negative' : 'neutral');
-    }}
+def make_strategy(sectors):
+    # Simple dynamic signals (can be improved with more logic)
+    top = max(sectors, key=lambda x: x['percent_change'])
+    worst = min(sectors, key=lambda x: x['percent_change'])
+    buy = [top['name']]
+    avoid = [worst['name']]
+    return {
+        'buy': buy, 'sell': avoid, 'hold': [s['name'] for s in sectors if abs(s['percent_change'])<0.5]
+    }
+
+def make_js(sectors, news, strategy, today_str, next_str, today_date, next_date):
+    js = f"""\
+// Auto-generated JS at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+// AUTO-SCRAPES EVERY 3 MIN
+
+const sectorData = {json.dumps(sectors)};
+const liveFinancialNews = {json.dumps(news)};
+const strategyData = {json.dumps(strategy)};
+const todayDate = "{today_date}";
+const nextDate = "{next_date}";
+const todayStr = "{today_str}";
+const nextStr = "{next_str}";
+
+// --- Sector performance ---
+function updateTodayPerformance() {{
+  let grid = '';
+  sectorData.forEach(s => {{
+    grid += `
+      <div class="sector-performance-item ${(s.percent_change>0.2?'gainer':s.percent_change<-0.2?'decliner':'neutral')}">
+        <span class="sector-name">{s['name']}</span>
+        <span class="today-change ${(s.percent_change>0.2?'positive':s.percent_change<-0.2?'negative':'neutral')}">${{s.percent_change>0?'+':''}}${{s.percent_change.toFixed(2)}}%</span>
+      </div>`;
   }});
+  document.querySelector('.performance-grid').innerHTML = grid;
 }}
 
-// Update news feed
-function updateNewsWithRealData() {{
-  const container = document.getElementById('news-container');
-  container.innerHTML = liveFinancialNews.map(n => `
-    <div class="news-item">
-      <h3>${{n.title}}</h3>
-      <p><strong>Source:</strong> ${{n.source}}</p>
-      <a href="${{n.url}}" target="_blank">Read more</a>
-    </div>
-  `).join('');
+// --- Breaking news ---
+function fetchBreakingNews() {{
+  const news = liveFinancialNews.slice(0, 5);
+  const container = document.getElementById('breaking-news-container');
+  let html = '';
+  news.forEach(item => {{
+    html += `
+      <div class="breaking-news-item">
+        <h3>${{item.title}}</h3>
+        <p>${{item.source || ''}} &bull; <a href="${{item.url}}" target="_blank">Read Full Article</a></p>
+      </div>`;
+  }});
+  container.innerHTML = html || '<div>No breaking news available.</div>';
 }}
 
-// Auto-run on page load
+// --- Strategy/Next Day Update ---
+function updateNextTradingStrategy() {{
+  document.querySelector('.strategy-card.buy-strategy ul').innerHTML =
+    strategyData.buy.map(s => `<li><strong>${{s}}:</strong> Fresh momentum or signal</li>`).join('');
+  document.querySelector('.strategy-card.sell-strategy ul').innerHTML =
+    strategyData.sell.map(s => `<li><strong>${{s}}:</strong> Caution advised</li>`).join('');
+  document.querySelector('.strategy-card.hold-strategy ul').innerHTML =
+    strategyData.hold.map(s => `<li><strong>${{s}}:</strong> Hold or wait and watch</li>`).join('');
+}}
+
 document.addEventListener('DOMContentLoaded', () => {{
-  updateWebsiteWithRealNSEData();
-  updateNewsWithRealData();
-  setInterval(updateWebsiteWithRealNSEData, 60000);
-  setInterval(updateNewsWithRealData, 300000);
+  updateTodayPerformance();
+  fetchBreakingNews();
+  updateNextTradingStrategy();
+  setInterval(fetchBreakingNews, 180000);
 }});
 """
     with open('nse_data_updater.js', 'w') as f:
         f.write(js)
-    print("💾 Generated nse_data_updater.js")
+    print("🟢 Updated nse_data_updater.js")
 
 def main():
     session = create_session()
     sectors = fetch_sector_data(session)
-    news = (
-        fetch_business_today_economy() +
-        fetch_moneycontrol_market_news() +
-        fetch_tradingeconomics_india_news()
-    )
-    generate_js(sectors, news)
-    print("✅ Script complete.")
+    news = fetch_bt() + fetch_mc() + fetch_te()
+    today_str, today_date = datetime.now().strftime("%A, %b %d, %Y"), datetime.now().strftime("%b %d, %Y")
+    next_str, next_date = next_trading_day()
+    strategy = make_strategy(sectors)
+    make_js(sectors, news, strategy, today_str, next_str, today_date, next_date)
 
 if __name__ == "__main__":
     main()
