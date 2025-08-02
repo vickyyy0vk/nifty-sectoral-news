@@ -14,38 +14,98 @@
     <p>Next Trading Session: Monday, August 4, 2025 at 9:15 AM IST</p>
   </header>
 
-  <!-- (Your existing HTML sections go here) -->
-
-  <section class="next-trading-day">
-    <h2>📈 Today's Actual Performance (Aug 1, 2025)</h2>
-    <div class="performance-grid">
-      <div class="sector-performance-item gainer">
-        <span class="sector-name">Nifty FMCG</span>
-        <span class="today-change positive">+1.02%</span>
-        <span class="sector-status">Market Leader</span>
+  <section class="performance-comparison">
+    <!-- Today's Actual Performance -->
+    <div class="today-performance">
+      <h2>📈 Today's Actual Performance (Aug 1, 2025)</h2>
+      <div class="performance-grid">
+        <div class="sector-performance-item gainer">
+          <span class="sector-name">Nifty FMCG</span>
+          <span class="today-change positive">+0.69%</span>
+          <span class="sector-status">Market Leader</span>
+        </div>
+        <div class="sector-performance-item decliner">
+          <span class="sector-name">Nifty Pharma</span>
+          <span class="today-change negative">-3.33%</span>
+          <span class="sector-status">Trump Crisis</span>
+        </div>
+        <!-- Add additional sectors similarly -->
       </div>
-      <!-- … other sectors … -->
-      <div class="sector-performance-item worst">
-        <span class="sector-name">Nifty Pharma</span>
-        <span class="today-change negative">-2.47%</span>
-        <span class="sector-status">Trump Crisis</span>
+      <div class="today-summary">
+        <div class="summary-stat positive">
+          <span class="stat-label">📈 Gainers</span>
+          <span class="stat-value">2 sectors</span>
+        </div>
+        <div class="summary-stat neutral">
+          <span class="stat-label">➡️ Flat</span>
+          <span class="stat-value">3 sectors</span>
+        </div>
+        <div class="summary-stat negative">
+          <span class="stat-label">📉 Losers</span>
+          <span class="stat-value">9 sectors</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monday's Growth Potential -->
+    <div class="monday-potential">
+      <h2>🎯 Monday's Growth Potential (Aug 4, 2025)</h2>
+      <div class="potential-grid">
+        <div class="potential-item high-potential">
+          <span class="sector-name">Nifty Auto</span>
+          <span class="potential-change">+2.5% to +4.0%</span>
+          <span class="potential-reason">EV Policy Announcement</span>
+        </div>
+        <div class="potential-item high-risk">
+          <span class="sector-name">Nifty Pharma</span>
+          <span class="potential-change">-3.5% to -1.0%</span>
+          <span class="potential-reason">Trump Deadline Pressure</span>
+        </div>
+        <!-- Add additional sectors similarly -->
+      </div>
+      <div class="potential-summary">
+        <div class="summary-stat high-potential">
+          <span class="stat-label">🚀 High Potential</span>
+          <span class="stat-value">2 sectors</span>
+        </div>
+        <div class="summary-stat medium-potential">
+          <span class="stat-label">📈 Medium Potential</span>
+          <span class="stat-value">3 sectors</span>
+        </div>
+        <div class="summary-stat negative-potential">
+          <span class="stat-label">⚠️ Risk Sectors</span>
+          <span class="stat-value">5 sectors</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="next-trading-day">
-    <h2>🎯 Monday's Growth Potential (Aug 4, 2025)</h2>
-    <div class="potential-grid">
-      <div class="potential-item high-potential">
-        <span class="sector-name">Nifty Auto</span>
-        <span class="potential-change">+2.5% to +4.0%</span>
-        <span class="potential-reason">EV Policy Announcement</span>
+  <section class="strategy-section">
+    <h2>🎯 Monday Trading Strategy Based on Today's Performance</h2>
+    <div class="strategy-recommendations">
+      <div class="strategy-card buy-strategy">
+        <h3>💚 BUY OPPORTUNITIES</h3>
+        <ul>
+          <li><strong>Nifty Auto:</strong> Today's -0.85% creates entry ahead of EV policy</li>
+          <li><strong>Nifty Metal:</strong> Oversold at -1.12%, rebound expected</li>
+          <li><strong>Nifty Infrastructure:</strong> Budget allocation hopes</li>
+        </ul>
       </div>
-      <!-- … other sectors … -->
-      <div class="potential-item high-risk">
-        <span class="sector-name">Nifty Pharma</span>
-        <span class="potential-change">-3.5% to -1.0%</span>
-        <span class="potential-reason">Trump Deadline Pressure</span>
+      <div class="strategy-card sell-strategy">
+        <h3>❤️ SELL/AVOID</h3>
+        <ul>
+          <li><strong>Nifty Pharma:</strong> Today's -3.33% may extend on Trump pressure</li>
+          <li><strong>Nifty IT:</strong> -1.53% likely to continue</li>
+          <li><strong>Nifty Realty:</strong> -1.98% drop from rate concerns</li>
+        </ul>
+      </div>
+      <div class="strategy-card hold-strategy">
+        <h3>🤝 HOLD/MONITOR</h3>
+        <ul>
+          <li><strong>Nifty FMCG:</strong> +0.69% leader, but profit booking risk</li>
+          <li><strong>Nifty Bank:</strong> -0.62%, RBI speech will decide direction</li>
+          <li><strong>Nifty Media:</strong> +1.00% gainer, sustainability questionable</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -54,7 +114,7 @@
     <p>🕒 Last Updated: Aug 2 2025, 10:00 AM IST</p>
   </footer>
 
-  <!-- Relative paths to JavaScript files -->
+  <!-- JavaScript includes with relative paths -->
   <script src="script.js"></script>
   <script src="nse_data_updater.js"></script>
 </body>
