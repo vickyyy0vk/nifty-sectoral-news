@@ -4,53 +4,143 @@ import time
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
-def get_working_sector_data():
-    """Use reliable alternative data sources that actually work"""
-    # Current real market data from alternative sources
-    sectors_data = [
-        {'name': 'NIFTY FMCG', 'percent_change': 0.69, 'last_price': 56197.25, 'status': 'Defensive Strength'},
-        {'name': 'NIFTY MEDIA', 'percent_change': 0.98, 'last_price': 1876.45, 'status': 'Content Recovery'},
-        {'name': 'NIFTY CONSUMER DURABLES', 'percent_change': 0.47, 'last_price': 45678.90, 'status': 'Moderate Gain'},
-        {'name': 'NIFTY HEALTHCARE INDEX', 'percent_change': 0.23, 'last_price': 12345.60, 'status': 'Mixed Signals'},
-        {'name': 'NIFTY FINANCIAL SERVICES', 'percent_change': -0.05, 'last_price': 23890.45, 'status': 'Nearly Flat'},
-        {'name': 'NIFTY BANK', 'percent_change': -0.62, 'last_price': 55273.85, 'status': 'Broad Weakness'},
-        {'name': 'NIFTY PRIVATE BANK', 'percent_change': -0.78, 'last_price': 26789.30, 'status': 'Credit Concerns'},
-        {'name': 'NIFTY AUTO', 'percent_change': -0.85, 'last_price': 23456.90, 'status': 'EV Transition Fears'},
-        {'name': 'NIFTY METAL', 'percent_change': -1.12, 'last_price': 8934.20, 'status': 'Commodity Weakness'},
-        {'name': 'NIFTY ENERGY', 'percent_change': -1.18, 'last_price': 34567.80, 'status': 'Oil Demand Concerns'},
-        {'name': 'NIFTY PSU BANK', 'percent_change': -1.45, 'last_price': 6789.45, 'status': 'Government Bank Stress'},
-        {'name': 'NIFTY IT', 'percent_change': -1.53, 'last_price': 34241.20, 'status': 'Global Tech Weakness'},
-        {'name': 'NIFTY REALTY', 'percent_change': -1.98, 'last_price': 890.75, 'status': 'Interest Rate Pressure'},
-        {'name': 'NIFTY PHARMA', 'percent_change': -3.33, 'last_price': 22011.70, 'status': 'Trump Ultimatum Impact'}
-    ]
-    
-    print("✅ Using reliable market data that bypasses NSE restrictions")
-    return sectors_data
+# Headers to mimic real browser
+HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Accept': 'application/json, text/plain, */*',
+    'Referer': 'https://www.nseindia.com'
+}
 
-def get_working_news():
-    """Fetch news from sources that don't block scraping"""
-    news = [
-        {'title': 'FMCG Stocks Lead Market Recovery Amid Global Uncertainty', 'url': 'https://economictimes.indiatimes.com/markets', 'source': 'Economic Times'},
-        {'title': 'Pharma Sector Faces Continued Pressure from US Policy Changes', 'url': 'https://www.moneycontrol.com/news', 'source': 'MoneyControl'},
-        {'title': 'IT Stocks Hit Multi-Month Lows on Global Tech Concerns', 'url': 'https://www.businesstoday.in/markets', 'source': 'Business Today'},
-        {'title': 'Banking Sector Shows Signs of Stability After Recent Volatility', 'url': 'https://economictimes.indiatimes.com/banking', 'source': 'Economic Times'},
-        {'title': 'Auto Sector Prepares for EV Transition Despite Current Weakness', 'url': 'https://www.moneycontrol.com/auto', 'source': 'MoneyControl'},
-        {'title': 'Metal Stocks Await Global Demand Recovery Signals', 'url': 'https://www.businesstoday.in/metals', 'source': 'Business Today'},
-        {'title': 'Real Estate Sector Grapples with Interest Rate Environment', 'url': 'https://economictimes.indiatimes.com/realty', 'source': 'Economic Times'},
-        {'title': 'Media Stocks Benefit from Content Monetization Trends', 'url': 'https://www.moneycontrol.com/media', 'source': 'MoneyControl'}
-    ]
-    
-    print(f"✅ Loaded {len(news)} reliable news articles")
-    return news
+# NSE Sector indices to track
+SECTORS = [
+    'NIFTY FMCG', 'NIFTY PHARMA', 'NIFTY IT', 'NIFTY BANK', 'NIFTY AUTO',
+    'NIFTY MEDIA', 'NIFTY METAL', 'NIFTY REALTY', 'NIFTY ENERGY', 'NIFTY PSU BANK',
+    'NIFTY PRIVATE BANK', 'NIFTY FINANCIAL SERVICES', 'NIFTY HEALTHCARE INDEX', 'NIFTY CONSUMER DURABLES'
+]
+
+def create_session():
+    """Create NSE session with proper cookies"""
+    session = requests.Session()
+    session.headers.update(HEADERS)
+    try:
+        # Get cookies from NSE homepage
+        session.get('https://www.nseindia.com', timeout=10)
+        time.sleep(2)
+        return session
+    except:
+        print("Warning: NSE session creation failed, using basic session")
+        return session
+
+def fetch_sector_data(session):
+    """Fetch real NSE sector index data"""
+    try:
+        response = session.get('https://www.nseindia.com/api/allIndices', timeout=15)
+        data = response.json().get('data', [])
+        
+        results = []
+        for sector in SECTORS:
+            sector_data = next((item for item in data if item.get('index') == sector), None)
+            if sector_data:
+                results.append({
+                    'name': sector,
+                    'last_price': float(sector_data.get('last', 0)),
+                    'percent_change': float(sector_data.get('pChange', 0)),
+                    'change': float(sector_data.get('change', 0)),
+                    'day_high': float(sector_data.get('dayHigh', 0)),
+                    'day_low': float(sector_data.get('dayLow', 0))
+                })
+                print(f"✅ {sector}: {sector_data.get('pChange', 0):.2f}%")
+        
+        return results
+        
+    except Exception as e:
+        print(f"❌ Error fetching sector data: {e}")
+        return []
+
+def fetch_business_today_news():
+    """Scrape Business Today economy news"""
+    try:
+        url = "https://www.businesstoday.in/latest/economy"
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        articles = []
+        for link in soup.select("ul.listingNews li a")[:5]:
+            title = link.get_text(strip=True)
+            url_path = link.get('href', '')
+            if url_path and not url_path.startswith('http'):
+                url_path = "https://www.businesstoday.in" + url_path
+            
+            articles.append({
+                'title': title,
+                'url': url_path,
+                'source': 'Business Today'
+            })
+        
+        print(f"✅ Business Today: {len(articles)} articles")
+        return articles
+        
+    except Exception as e:
+        print(f"❌ Business Today fetch error: {e}")
+        return []
+
+def fetch_moneycontrol_news():
+    """Scrape MoneyControl market news"""
+    try:
+        url = "https://www.moneycontrol.com/news/business/markets/"
+        response = requests.get(url, headers=HEADERS, timeout=10)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        articles = []
+        for article in soup.select("div.listingnews_block article")[:5]:
+            link = article.find('a', href=True)
+            if link:
+                title = link.get_text(strip=True)
+                url_path = link.get('href', '')
+                
+                articles.append({
+                    'title': title,
+                    'url': url_path,
+                    'source': 'MoneyControl'
+                })
+        
+        print(f"✅ MoneyControl: {len(articles)} articles")
+        return articles
+        
+    except Exception as e:
+        print(f"❌ MoneyControl fetch error: {e}")
+        return []
+
+def fetch_trading_economics_news():
+    """Fetch Trading Economics India news"""
+    try:
+        url = "https://api.tradingeconomics.com/news/country/india?c=guest:guest"
+        response = requests.get(url, timeout=10)
+        data = response.json()
+        
+        articles = []
+        for item in data[:5]:
+            articles.append({
+                'title': item.get('title', ''),
+                'url': item.get('url', ''),
+                'source': item.get('source', 'Trading Economics')
+            })
+        
+        print(f"✅ Trading Economics: {len(articles)} articles")
+        return articles
+        
+    except Exception as e:
+        print(f"❌ Trading Economics fetch error: {e}")
+        return []
 
 def get_next_trading_day():
     """Calculate next trading day"""
     now = datetime.now()
-    weekday = now.weekday()
+    weekday = now.weekday()  # 0=Monday, 6=Sunday
     
     if weekday == 4:  # Friday
         days_to_add = 3  # Next Monday
-    elif weekday == 5:  # Saturday  
+    elif weekday == 5:  # Saturday
         days_to_add = 2  # Next Monday
     elif weekday == 6:  # Sunday
         days_to_add = 1  # Next Monday
@@ -61,29 +151,29 @@ def get_next_trading_day():
     return next_day.strftime("%A, %B %d, %Y")
 
 def create_trading_strategy(sectors):
-    """Generate strategy based on sector performance"""
+    """Generate trading strategy based on sector performance"""
+    if not sectors:
+        return {'buy': [], 'sell': [], 'hold': []}
+    
     sorted_sectors = sorted(sectors, key=lambda x: x['percent_change'], reverse=True)
     
     return {
-        'buy': [s['name'] for s in sorted_sectors[:2] if s['percent_change'] > -1.0],
-        'sell': [s['name'] for s in sorted_sectors[-3:] if s['percent_change'] < -1.0],
+        'buy': [s['name'] for s in sorted_sectors[:1] if s['percent_change'] > -1.0],
+        'sell': [s['name'] for s in sorted_sectors[-2:] if s['percent_change'] < -1.0],
         'hold': [s['name'] for s in sectors if -0.5 <= s['percent_change'] <= 0.5]
     }
 
-def generate_working_js(sectors, news, strategy, next_trading_day_str):
-    """Generate JavaScript that actually displays data"""
+def generate_javascript_updater(sectors, news, strategy, next_trading):
+    """Generate JavaScript file with all data"""
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S IST')
     
-    js_code = f'''// Working NSE Data Updater - Generated: {timestamp}
-// This bypasses NSE's anti-scraping restrictions
+    js_code = f'''// Nifty Sectoral Updater - Generated: {timestamp}
 
 const sectorData = {json.dumps(sectors, indent=2)};
 const liveFinancialNews = {json.dumps(news, indent=2)};
 const strategyData = {json.dumps(strategy, indent=2)};
-const nextTradingDay = "{next_trading_day_str}";
+const nextTradingDay = "{next_trading}";
 const lastUpdated = "{timestamp}";
-
-console.log("🟢 Data loaded successfully - Sectors:", sectorData.length, "News:", liveFinancialNews.length);
 
 function updatePageData() {{
     updateHeaderInfo();
@@ -91,29 +181,19 @@ function updatePageData() {{
     updateSectorPerformance();
     updateGrowthPotential();
     updateTradingStrategy();
-    console.log("✅ All sections updated with real data");
 }}
 
 function updateHeaderInfo() {{
-    const elements = {{
-        'market-status': "🔔 Markets Closed for Weekend",
-        'next-trading-day': `📅 Next Trading Session: ${{nextTradingDay}} at 9:15 AM IST`,
-        'last-updated': `🕒 Last Updated: ${{lastUpdated}}`,
-        'footer-update': `🕒 Last Updated: ${{lastUpdated}}`
-    }};
-    
-    Object.entries(elements).forEach(([id, text]) => {{
-        const el = document.getElementById(id);
-        if (el) el.textContent = text;
-    }});
+    document.getElementById('market-status').textContent = "🔔 Markets Closed for Weekend";
+    document.getElementById('next-trading-day').textContent = `📅 Next Trading Session: ${{nextTradingDay}} at 9:15 AM IST`;
+    document.getElementById('last-updated').textContent = `🕒 Last Updated: ${{lastUpdated}}`;
+    document.getElementById('footer-update').textContent = `🕒 Last Updated: ${{lastUpdated}}`;
 }}
 
 function updateBreakingNews() {{
     const container = document.getElementById('breaking-news-container');
-    if (!container) return;
-    
     let newsHtml = '';
-    liveFinancialNews.forEach(news => {{
+    liveFinancialNews.slice(0, 5).forEach(news => {{
         newsHtml += `
             <div class="breaking-news-item">
                 <h3>${{news.title}}</h3>
@@ -121,15 +201,11 @@ function updateBreakingNews() {{
             </div>
         `;
     }});
-    
-    container.innerHTML = newsHtml;
-    console.log("📰 Breaking news updated");
+    container.innerHTML = newsHtml || '<div>No breaking news available.</div>';
 }}
 
 function updateSectorPerformance() {{
     const grid = document.getElementById('performance-grid');
-    if (!grid) return;
-    
     let html = '';
     sectorData.forEach(sector => {{
         const changeClass = sector.percent_change > 0.2 ? 'gainer' : 
@@ -142,19 +218,15 @@ function updateSectorPerformance() {{
             <div class="sector-performance-item ${{changeClass}}">
                 <span class="sector-name">${{sector.name}}</span>
                 <span class="today-change ${{signClass}}">${{sign}}${{sector.percent_change.toFixed(2)}}%</span>
-                <span class="sector-status">${{sector.status}}</span>
+                <span class="sector-status">${{getStatusText(sector.percent_change)}}</span>
             </div>
         `;
     }});
-    
     grid.innerHTML = html;
-    console.log("📊 Sector performance updated");
 }}
 
 function updateGrowthPotential() {{
     const grid = document.getElementById('potential-grid');
-    if (!grid) return;
-    
     let html = '';
     sectorData.forEach(sector => {{
         const potentialClass = sector.percent_change > 1 ? 'high-potential' :
@@ -171,9 +243,7 @@ function updateGrowthPotential() {{
             </div>
         `;
     }});
-    
     grid.innerHTML = html;
-    console.log("🎯 Growth potential updated");
 }}
 
 function updateTradingStrategy() {{
@@ -197,67 +267,60 @@ function updateTradingStrategy() {{
             list.innerHTML = html;
         }}
     }});
-    
-    console.log("🎯 Trading strategy updated");
 }}
 
-// Initialize everything when page loads
-document.addEventListener('DOMContentLoaded', function() {{
-    console.log("🚀 Initializing website with working data...");
-    
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {{
-        updatePageData();
-        
-        // Update breaking news every 3 minutes
-        setInterval(() => {{
-            updateBreakingNews();
-            console.log("🔄 Auto-refreshed breaking news");
-        }}, 180000);
-        
-        console.log("✅ Website fully loaded with real market data!");
-    }}, 500);
-}});
+function getStatusText(change) {{
+    if (change > 2) return "Strong Rally";
+    if (change > 1) return "Good Gains";
+    if (change > 0.5) return "Positive";
+    if (change >= -0.1 && change <= 0.1) return "Flat";
+    if (change > -1) return "Weak";
+    if (change > -2) return "Under Pressure";
+    return "Sharp Decline";
+}}
 
-// Backup data load in case of any issues
-window.addEventListener('load', function() {{
-    setTimeout(() => {{
-        if (document.querySelector('.loading')) {{
-            console.log("🔄 Backup data loading triggered");
-            updatePageData();
-        }}
-    }}, 2000);
+function getPotentialReason(change) {{
+    if (change > 1) return "Momentum likely to continue";
+    if (change < -1) return "Risk of further decline";
+    return "Mixed signals, watch closely";
+}}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {{
+    console.log("🚀 Initializing website...");
+    updatePageData();
+    
+    // Update breaking news every 3 minutes
+    setInterval(updateBreakingNews, 180000);
+    
+    console.log("✅ Website fully loaded!");
 }});
 '''
-    
+
     with open('nse_data_updater.js', 'w', encoding='utf-8') as f:
         f.write(js_code)
     
-    print("✅ Generated working nse_data_updater.js that bypasses NSE restrictions")
+    print("✅ Generated nse_data_updater.js with reliable data")
 
 def main():
-    print("🚀 Starting Working NSE Data Generator (Anti-Scraping Bypass)")
-    print("=" * 60)
+    print("🚀 Starting Working NSE Data Generator")
+    print("=" * 50)
     
-    # Get working data from alternative sources
+    # Get working data
     sectors = get_working_sector_data()
     news = get_working_news()
     next_trading = get_next_trading_day()
     strategy = create_trading_strategy(sectors)
     
-    # Generate working JavaScript
+    # Generate JS
     generate_working_js(sectors, news, strategy, next_trading)
     
-    print("\n" + "=" * 60)
-    print("✅ SUCCESS - Your website will now work immediately!")
-    print(f"📊 Sectors loaded: {len(sectors)}")
-    print(f"📰 News articles: {len(news)}")
-    print(f"📅 Next trading day: {next_trading}")
-    print(f"💡 Buy signals: {len(strategy['buy'])}")
-    print(f"⚠️ Sell signals: {len(strategy['sell'])}")
-    print(f"🤝 Hold signals: {len(strategy['hold'])}")
-    print("=" * 60)
-    print("🎉 No more 'Loading...' - Real data will display instantly!")
+    print("\n" + "=" * 50)
+    print("✅ SUCCESS - Your website will now work!")
+    print(f"📊 Sectors: {len(sectors)}")
+    print(f"📰 News: {len(news)}")
+    print(f"📅 Next trading: {next_trading}")
+    print("=" * 50)
 
 if __name__ == "__main__":
     main()
