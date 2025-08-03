@@ -8,11 +8,10 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-    header { background: rgba(255, 255, 255, 0.98); padding: 2rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-    header h1 { color: #2c3e50; margin-bottom: 0.5rem; font-size: 2.5rem; font-weight: bold; }
-    header p { color: #7f8c8d; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    header { background: rgba(255, 255, 255, 0.98); padding: 2rem; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.15); border-bottom: 3px solid #3498db; }
+    header h1 { color: #2c3e50; margin-bottom: 0.5rem; font-size: 2.8rem; font-weight: bold; }
+    header p { color: #7f8c8d; font-size: 1.2rem; margin-bottom: 1rem; }
     main { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
-    
     .breaking-news-section { background: #fff3cd; border: 1px solid #ffeeba; border-radius: 15px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     .breaking-news-section h2 { color: #856404; margin-bottom: 1.5rem; text-align: center; font-size: 1.8rem; }
     .breaking-news-container { display: flex; flex-direction: column; gap: 1rem; }
@@ -22,25 +21,20 @@
     .breaking-news-item p { font-size: 0.9rem; color: #6c757d; }
     .breaking-news-item a { color: #007bff; text-decoration: none; font-weight: bold; }
     .breaking-news-item a:hover { text-decoration: underline; }
-    
     .performance-section, .potential-section, .strategy-section { background: white; border-radius: 20px; padding: 2.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
     .performance-section h2, .potential-section h2, .strategy-section h2 { color: #2c3e50; margin-bottom: 2rem; text-align: center; font-size: 2rem; }
-    
     .performance-grid, .potential-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
     .sector-performance-item, .potential-item { padding: 1.5rem; border-radius: 15px; text-align: center; border-left: 6px solid #3498db; transition: all 0.3s ease; position: relative; }
     .sector-performance-item:hover, .potential-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-    
     .sector-performance-item.gainer, .potential-item.high-potential { border-left-color: #27ae60; background: linear-gradient(135deg, #e8f5e8, #d4edda); }
     .sector-performance-item.decliner, .potential-item.high-risk { border-left-color: #e74c3c; background: linear-gradient(135deg, #ffeaea, #f8d7da); }
     .sector-performance-item.neutral, .potential-item.medium-potential { border-left-color: #f39c12; background: linear-gradient(135deg, #fff3cd, #ffeaa7); }
-    
     .sector-name { font-weight: bold; color: #2c3e50; font-size: 1.1rem; margin-bottom: 0.8rem; display: block; }
     .today-change, .potential-change { font-weight: bold; font-size: 1.3rem; margin-bottom: 0.8rem; display: block; }
     .today-change.positive, .potential-change.positive { color: #27ae60; }
     .today-change.negative, .potential-change.negative { color: #e74c3c; }
     .today-change.neutral, .potential-change.neutral { color: #f39c12; }
     .sector-status, .potential-reason { color: #7f8c8d; font-size: 0.9rem; font-style: italic; }
-    
     .strategy-recommendations { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem; }
     .strategy-card { padding: 2rem; border-radius: 15px; background: #f8f9fa; }
     .buy-strategy { border-left: 6px solid #27ae60; background: linear-gradient(135deg, #e8f5e8, #d4edda); }
@@ -50,11 +44,8 @@
     .strategy-card ul { list-style: none; padding: 0; }
     .strategy-card li { margin-bottom: 1rem; padding: 0.8rem; background: rgba(255,255,255,0.7); border-radius: 8px; }
     .strategy-card strong { color: #2c3e50; }
-    
     footer { background: rgba(255, 255, 255, 0.98); text-align: center; padding: 2rem; color: #7f8c8d; border-top: 3px solid #3498db; }
-    
     .loading { text-align: center; padding: 2rem; color: #7f8c8d; font-size: 1.1rem; }
-    
     @media (max-width: 768px) {
       header h1 { font-size: 2rem; }
       .performance-grid, .potential-grid { grid-template-columns: 1fr; }
