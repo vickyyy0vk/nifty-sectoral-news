@@ -1,8 +1,8 @@
-name: Working Data Update
+name: Auto Update NSE Data
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Every 6 hours
+    - cron: '*/6 * * * *'  # Every 6 hours
   workflow_dispatch:
 
 jobs:
@@ -10,15 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python
+    - name: Setup Python
       uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-    - name: Install dependencies
-      run: pip install requests beautifulsoup4
-    - name: Generate data
+      with: python-version: '3.9'
+    - name: Install deps
+      run: pip install requests beautifulsoup4 bs4
+    - name: Generate JS updater
       run: python get_nse_data.py
-    - name: Commit and push
+    - name: Commit & Push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
