@@ -1,36 +1,27 @@
-name: Auto Update NSE Data
+name: Working Data Update
 
 on:
   schedule:
-    # Run every 5 minutes during market hours
-    - cron: '*/5 * * * *'
-  workflow_dispatch: # Allow manual runs
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:
 
 jobs:
   update-data:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v3
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-    
     - name: Install dependencies
-      run: |
-        pip install requests beautifulsoup4
-    
-    - name: Run NSE data scraper
-      run: |
-        python get_nse_data.py
-    
-    - name: Commit and push changes
+      run: pip install requests beautifulsoup4
+    - name: Generate data
+      run: python get_nse_data.py
+    - name: Commit and push
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add nse_data_updater.js
-        git commit -m "Auto-update NSE data $(date)" || echo "No changes to commit"
+        git commit -m "Auto-update data" || echo "No changes"
         git push
